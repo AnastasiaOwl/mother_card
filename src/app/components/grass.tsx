@@ -16,8 +16,9 @@ interface Blade {
   left: number;
   delay: number;
   sway: number;
-  id: number;
+  path: string;
 }
+
 
 export default function Grass({
   bladeCount = 200,
@@ -26,24 +27,29 @@ export default function Grass({
   animationDelayRange = [0, 2],
   opacity = 1,
   strokeWidth = 0.8,
+  className = "",
 }: GrassProps) {
   const [blades, setBlades] = useState<Blade[] | null>(null);
 
-  useEffect(() => {
-    const newBlades = Array.from({ length: bladeCount }).map((_, i) => ({
-      id: i,
-      height: heightRange[0] + Math.random() * (heightRange[1] - heightRange[0]),
-      left: (i / bladeCount) * 100 + Math.random(),
-      delay: animationDelayRange[0] + Math.random() * (animationDelayRange[1] - animationDelayRange[0]),
-      sway: (Math.random() - 0.5) * 30,
-    }));
-    setBlades(newBlades);
-  }, [bladeCount, heightRange, animationDelayRange]);
+useEffect(() => {
+  const newBlades = Array.from({ length: bladeCount }).map((_, i) => {
+    const height = heightRange[0] + Math.random() * (heightRange[1] - heightRange[0]);
+    const left = (i / bladeCount) * 100 + Math.random();
+    const delay = animationDelayRange[0] + Math.random() * (animationDelayRange[1] - animationDelayRange[0]);
+    const sway = (Math.random() - 0.5) * 30;
+    const path = `M5,100 C5,75 ${5 + sway},25 5,0`;
+
+    return { height, left, delay, sway, path };
+  });
+  setBlades(newBlades);
+}, []);
+
 
   if (!blades) return null;
 
   return (
     <>
+    <div className={`absolute w-full h-full ${className}`}>
       {blades.map((blade, idx) => {
         const path = `M5,100 C5,75 ${5 + blade.sway},25 5,0`;
 
@@ -61,7 +67,7 @@ export default function Grass({
           >
             <defs>
               <linearGradient
-                id={`fade-stroke-${idx}`}
+                id={`fade-stroke-${color?.replace("#", "")}-${idx}`}
                 x1="0"
                 y1="0"
                 x2="0"
@@ -75,7 +81,7 @@ export default function Grass({
             </defs>
             <path
               d={path}
-              stroke={`url(#fade-stroke-${idx})`}
+              stroke={`url(#fade-stroke-${color?.replace("#", "")}-${idx})`}
               strokeWidth={strokeWidth}
               fill="none"
               className="animate-sway"
@@ -83,6 +89,7 @@ export default function Grass({
           </svg>
         );
       })}
+      </div>
     </>
   );
 }
