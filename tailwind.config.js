@@ -8,17 +8,8 @@
         "./src/**/*.{js,ts,jsx,tsx,mdx}",
       ],
      theme: {
-        extend: {
-        keyframes: {
-            sway: {
-            '0%, 100%': { transform: 'rotate(-1deg)' },
-            '50%': { transform: 'rotate(1deg)' },
-            },
-        },
-        animation: {
-            sway: 'sway 2s ease-in-out infinite',
-        },
-        },
-    },
-      plugins: [],
-    };
+    extend: {
+    }
+  },
+  plugins: [],
+  };

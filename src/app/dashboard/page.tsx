@@ -9,49 +9,43 @@ export default function Dashboard() {
           bladeCount={2000}
           color="#003e0d"
           heightRange={[50, 120]}
-          opacity={1}
-          strokeWidth={0.8}
           className="z-1000"
+          swayPhase={0} 
         />
        <Grass
-          bladeCount={4000}
+          bladeCount={2000}
           color="#228B22"
           heightRange={[330, 490]}
-          opacity={0.9}
-          strokeWidth={0.8}
           className="z-600"
+          swayPhase={Math.PI / 2}
         />
        <Grass
           bladeCount={2000}
           color="#004000"
           heightRange={[280, 370]}
-          opacity={0.9}
-          strokeWidth={0.6}
           className="z-700"
+          swayPhase={Math.PI}
         />
       <Grass
-          bladeCount={3000}
+          bladeCount={2000}
           color="#006600"
           heightRange={[200, 270]}
-          opacity={0.9}
-          strokeWidth={1}
           className="z-800"
+           swayPhase={0} 
         />
       <Grass
-          bladeCount={3000}
+          bladeCount={2000}
           color="#004000"
           heightRange={[140, 190]}
-          opacity={0.9}
-          strokeWidth={0.6}
           className="z-900"
+          swayPhase={Math.PI / 2}
         />
          <Grass
-          bladeCount={3000}
+          bladeCount={2000}
           color="#003e0d"
           heightRange={[500, 560]}
-          opacity={0.8}
-          strokeWidth={0.4}
           className="z-500"
+          swayPhase={Math.PI}
         />
       </div>
     </>
