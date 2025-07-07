@@ -1,10 +1,12 @@
 "use client";
 import Grass from "../components/grass";
+import Dandelions from "../components/dandelions";
 
 export default function Dashboard() {
   return (
     <>
     <div className="relative w-screen h-screen bg-green-400 overflow-hidden">
+       <Dandelions count={50} color="#ffe600" />
         <Grass
           bladeCount={2000}
           color="#003e0d"
