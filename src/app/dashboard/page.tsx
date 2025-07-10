@@ -2,13 +2,29 @@
 import Grass from "../components/grass";
 import Dandelions from "../components/dandelions";
 import TextFromDandelions from "../components/textFromDandelions";
+import { useEffect, useState } from "react";
+
 
 export default function Dashboard() {
+  const [showText, setShowText] = useState<boolean>(false);
+
+  useEffect(()=>{
+
+  const timer = setTimeout(() => {
+      setShowText(true);
+    }, 3500);
+
+  return ()=> clearTimeout(timer);
+  }, [])
+
+
   return (
     <>
     <div className="relative w-screen h-screen bg-green-400 overflow-hidden">
-        <TextFromDandelions/>
-       <Dandelions count={50} color="#ffe600" />
+        {showText && (
+          <TextFromDandelions/>
+        )}
+        <Dandelions count={50} color="#ffe600" />
         <Grass
           bladeCount={2000}
           color="#003e0d"

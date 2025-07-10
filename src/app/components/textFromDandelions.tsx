@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import pointsDesktop from "../particle-points.json";
 import pointsMobile from "../particle-points-mobile.json";
+import { getFlowerCenters } from "./flowerStore";
 
 type Point = { x: number; y: number };
 
@@ -11,7 +12,7 @@ type Props = {
 
 export default function TextFromDandelions({
   color = "yellow",
-  duration = 1.6,
+  duration = 2,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [points, setPoints] = useState<Point[] | null>(null);
@@ -26,20 +27,28 @@ export default function TextFromDandelions({
   useEffect(() => {
     if (!points) return;
 
+    const flowers = getFlowerCenters();
+    if (!flowers.length) return;
+
     const { width, height } = dimensions;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const particles = points.map((to) => ({
-      from: {
-        x: Math.random() * width,
-        y: height + 80 + Math.random() * 100,
-      },
-      to,
-      delay: Math.random() * 0.6,
-    }));
+    const particles = points.map((to, i) => {
+      const flower = flowers[i % flowers.length];
+      return {
+        from: {
+          x: flower.x + Math.random() * 10 - 5,
+          y: flower.y + Math.random() * 10 - 5,
+        },
+        to,
+        delay: Math.random() * 1.5,
+        t: 0,
+        isPetal: true,
+      };
+    });
 
     let running = true;
     let start: number | null = null;
@@ -50,8 +59,9 @@ export default function TextFromDandelions({
       const elapsed = (now - start) / 1000;
       ctx.clearRect(0, 0, width, height);
 
+      let allParticlesCompleted = true;
+
       for (let p of particles) {
-        
         const localElapsed = Math.max(0, elapsed - p.delay);
         const t =
           localElapsed < 0
@@ -60,24 +70,36 @@ export default function TextFromDandelions({
             ? 1
             : 1 - Math.pow(1 - localElapsed / duration, 2.3);
 
-        const windOffset = Math.sin(p.from.y * 0.05 + elapsed * 2) * 20;
+        if (t < 1) allParticlesCompleted = false;
+
+        const windOffset = Math.sin(p.from.y * 0.05 + elapsed * 1.8) * 20 * (1 - t);
         const x = p.from.x + (p.to.x - p.from.x) * t + windOffset;
         const y = p.from.y + (p.to.y - p.from.y) * t;
 
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(Math.sin(elapsed + x * 0.01));
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 6, 3, 0, 0, Math.PI * 2);
+
+        if (t === 1) {
+          p.isPetal = false;
+        }
+
+        if (p.isPetal) {
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 6, 3, 0, 0, Math.PI * 2);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, 4, 0, Math.PI * 2);
+        }
+
         ctx.fillStyle = color;
-        ctx.globalAlpha = 0.8;
+        ctx.globalAlpha = 0.8 * t;
         ctx.fill();
         ctx.restore();
-
       }
 
       ctx.globalAlpha = 1;
-      if (elapsed < duration + 0.6) {
+      if (elapsed < duration + 0.6 || !allParticlesCompleted) {
         requestAnimationFrame(animate);
       }
     }

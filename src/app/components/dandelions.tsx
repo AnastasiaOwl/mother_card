@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
+import { setFlowerCenters } from "./flowerStore";
 
 interface DandelionProps {
   count?: number;
@@ -15,8 +16,10 @@ export default function Dandelions({
   className = "",
 }: DandelionProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const flowersDrawn = useRef(false);
 
   useEffect(() => {
+    if (flowersDrawn.current) return; 
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -31,7 +34,7 @@ export default function Dandelions({
       attempts++;
       const r = radiusRange[0] + Math.random() * (radiusRange[1] - radiusRange[0]);
       const x = Math.random() * (width - 2 * r) + r;
-      const y = height - Math.random() * height * 0.65;
+      const y = height - Math.random() * height * 0.5;
       const delay = Math.random() * 2000;
 
       const overlaps = flowers.some(f => {
@@ -104,8 +107,10 @@ export default function Dandelions({
           }
           requestAnimationFrame(drawFrame);
         }
-        requestAnimationFrame(drawFrame);
-        }, [count, color, radiusRange]);
+      requestAnimationFrame(drawFrame);
+      flowersDrawn.current = true; 
+      setFlowerCenters(flowers);
+    }, [count, color, radiusRange]);
 
   return (
     <canvas
