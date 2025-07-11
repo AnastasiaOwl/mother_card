@@ -3,10 +3,23 @@ import Grass from "../components/grass";
 import Dandelions from "../components/dandelions";
 import TextFromDandelions from "../components/textFromDandelions";
 import { useEffect, useState } from "react";
+import hearts from "../lottie/floating hearts.json";
+import Player from "lottie-react";
+import wind from "../sounds/wind.mp3";
 
 
 export default function Dashboard() {
   const [showText, setShowText] = useState<boolean>(false);
+  const [heartsList, setHeartsList] = useState<
+    { x: number; y: number; key: string }[]
+  >([]);
+
+   function handleHeartsTap(e: React.MouseEvent<HTMLDivElement>) {
+    const x = e.clientX;
+    const y = e.clientY;
+    const key = `${Date.now()}-${Math.random()}`;
+    setHeartsList((list) => [...list, { x, y, key }]);
+  }
 
   useEffect(()=>{
 
@@ -20,7 +33,31 @@ export default function Dashboard() {
 
   return (
     <>
-    <div className="relative w-screen h-screen bg-green-400 overflow-hidden">
+    <div className="relative w-screen h-screen bg-green-400 overflow-hidden" onClick={handleHeartsTap}>
+      {heartsList.map(({ x, y, key }) => (
+          <div
+            key={key}
+            className="pointer-events-none fixed"
+            style={{
+              left: x,
+              top: y,
+              width: 200,
+              height: 200,
+              transform: "translate(-50%,-50%)",
+              zIndex: 1000,
+            }}
+          >
+        <Player
+            autoplay
+            animationData={hearts}
+            style={{ width: "100%", height: "100%" }}
+             onComplete={() => {
+              setHeartsList(list => list.filter(c => c.key !== key));
+            }}
+          />
+          </div>
+        ))}
+
         {showText && (
           <TextFromDandelions/>
         )}
