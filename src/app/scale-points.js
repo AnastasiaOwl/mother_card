@@ -1,6 +1,5 @@
-const fs = require("fs");
-
-const originalPoints = require("./particle-points.json");
+import fs from "fs";
+import originalPoints from "./particle-points.json" assert { type: "json" };
 
 const outputSmallCanvasWidth = 680;
 const outputSmallCanvasHeight = 470;
@@ -14,8 +13,8 @@ const scale = Math.min(
 );
 
 
-const offsetX = (outputSmallCanvasWidth - originalCanvasWidth * scale) / 2;
-const offsetY = (outputSmallCanvasHeight - originalCanvasHeight * scale) / 2;
+const offsetX = (outputSmallCanvasWidth - originalCanvasWidth * scale) / 2.5;
+const offsetY = (outputSmallCanvasHeight - originalCanvasHeight * scale) / 2.5;
 
 const scaledPoints = originalPoints.map(({ x, y }) => ({
   x: x * scale + offsetX,

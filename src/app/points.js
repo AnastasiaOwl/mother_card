@@ -7,7 +7,7 @@ const TEXT = 'Мамочка, дякую що ти є!';
 const FONT_SIZE = 150;
 const WIDTH = 1200;
 const HEIGHT = 1200; 
-const DOT_COUNT = 1000;
+const DOT_COUNT = 800;
 
 opentype.load(FONT_PATH, (err, font) => {
   if (err) throw err;

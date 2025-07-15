@@ -17,12 +17,12 @@ export default function TextFromDandelions({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [points, setPoints] = useState<Point[] | null>(null);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 660 });
+  const isMobile = window.innerWidth < 1024;
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 1024;
     setPoints(isMobile ? pointsMobile : pointsDesktop);
     setDimensions(isMobile ? { width: 700, height: 380 } : { width: 1200, height: 660 });
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     if (!points) return;
@@ -86,10 +86,20 @@ export default function TextFromDandelions({
 
         if (p.isPetal) {
           ctx.beginPath();
-          ctx.ellipse(0, 0, 6, 3, 0, 0, Math.PI * 2);
+           ctx.ellipse(
+            0, 0,
+            isMobile ? 3 : 6,
+            isMobile ? 1.5 : 3,
+            0, 0, Math.PI * 2
+          );
         } else {
           ctx.beginPath();
-          ctx.arc(0, 0, 4, 0, Math.PI * 2);
+            ctx.arc(
+            0, 0,
+            isMobile ? 2 : 4,
+            0, Math.PI * 2
+          );
+
         }
 
         ctx.fillStyle = color;
@@ -108,7 +118,7 @@ export default function TextFromDandelions({
     return () => {
       running = false;
     };
-  }, [points, dimensions, color, duration]);
+  }, [points, dimensions, color, duration, isMobile]);
 
   return (
     <canvas

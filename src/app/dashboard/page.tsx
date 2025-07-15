@@ -18,6 +18,40 @@ export default function Dashboard() {
   const finalRef = useRef<HTMLAudioElement | null> (null);
   const [removed,     setRemoved    ] = useState<boolean>(false);
 
+  const isMobile = useIsMobile();
+
+  function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const check = () => setIsMobile(window.innerWidth < 1024);
+      check();
+      window.addEventListener("resize", check);
+      return () => window.removeEventListener("resize", check);
+    }, []);
+
+    return isMobile;
+  }
+
+  const dandelionRadius: [number, number] = isMobile ? [8, 12] : [20, 23];
+  const grassHeights: [number, number][] = isMobile
+    ? [
+        [20, 50],
+        [100, 180],
+        [80, 130],
+        [60, 90],
+        [30, 60],
+        [180, 210],
+      ]
+    : [
+        [50, 120],
+        [330, 490],
+        [280, 370],
+        [200, 270],
+        [140, 190],
+        [500, 560],
+      ];
+
   useEffect(() => {
     windRef.current = new Audio("/sounds/wind.mp3");
     windRef.current.preload = "auto";
@@ -90,7 +124,7 @@ export default function Dashboard() {
                 width: 200,
                 height: 200,
                 transform: "translate(-50%,-50%)",
-                zIndex: 1000,
+                zIndex: 800000,
               }}
             >
               
@@ -109,51 +143,15 @@ export default function Dashboard() {
             <TextFromDandelions/>
           )}
           {showFlowers && (
-            <Dandelions count={50} color="#ffe600" />
+            <Dandelions count={50} color="#ffe600" radiusRange={dandelionRadius} />
           )
           }
-          <Grass
-            bladeCount={2000}
-            color="#003e0d"
-            heightRange={[50, 120]}
-            className="z-1000"
-            swayPhase={0} 
-          />
-        <Grass
-            bladeCount={2000}
-            color="#228B22"
-            heightRange={[330, 490]}
-            className="z-600"
-            swayPhase={Math.PI / 2}
-          />
-        <Grass
-            bladeCount={2000}
-            color="#004000"
-            heightRange={[280, 370]}
-            className="z-700"
-            swayPhase={Math.PI}
-          />
-        <Grass
-            bladeCount={2000}
-            color="#006600"
-            heightRange={[200, 270]}
-            className="z-800"
-            swayPhase={0} 
-          />
-        <Grass
-            bladeCount={2000}
-            color="#004000"
-            heightRange={[140, 190]}
-            className="z-900"
-            swayPhase={Math.PI / 2}
-          />
-          <Grass
-            bladeCount={2000}
-            color="#003e0d"
-            heightRange={[500, 560]}
-            className="z-500"
-            swayPhase={Math.PI}
-          />
+       <Grass bladeCount={2000} color="#003e0d" heightRange={grassHeights[0]} className="z-1000" swayPhase={0} />
+       <Grass bladeCount={2000} color="#228B22" heightRange={grassHeights[1]} className="z-600" swayPhase={Math.PI / 2} />
+       <Grass bladeCount={2000} color="#004000" heightRange={grassHeights[2]} className="z-700" swayPhase={Math.PI} />
+       <Grass bladeCount={2000} color="#006600" heightRange={grassHeights[3]} className="z-800" swayPhase={0} />
+       <Grass bladeCount={2000} color="#004000" heightRange={grassHeights[4]} className="z-900" swayPhase={Math.PI / 2} />
+       <Grass bladeCount={2000} color="#003e0d" heightRange={grassHeights[5]} className="z-500" swayPhase={Math.PI} />
         </div>
       )}
     </>

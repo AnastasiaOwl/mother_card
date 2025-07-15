@@ -10,7 +10,7 @@ interface DandelionProps {
 }
 
 export default function Dandelions({
-  count = 300,
+  count = 300,  
   color = "#ffeb3b",
   radiusRange = [20, 23],
   className = "",

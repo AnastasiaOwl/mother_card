@@ -7,7 +7,7 @@ interface GrassProps {
   heightRange?: [number, number];
   swayAmount?: number;
   strokeWidth?: number;
-  swayPhase?: number; // 🌿 New prop
+  swayPhase?: number;
   className?: string;
 }
 
