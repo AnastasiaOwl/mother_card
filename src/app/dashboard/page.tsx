@@ -19,6 +19,8 @@ export default function Dashboard() {
 
   const isMobile = useIsMobile();
 
+  const bladeCount = isMobile ? 400 : 2000;
+
   function useIsMobile() {
     const [isMobile, setIsMobile] = useState(false);
 
@@ -144,12 +146,12 @@ export default function Dashboard() {
             <Dandelions count={50} color="#ffe600" radiusRange={dandelionRadius} />
           )
           }
-       <Grass bladeCount={2000} color="#003e0d" heightRange={grassHeights[0]} className="z-1000" swayPhase={0} />
-       <Grass bladeCount={2000} color="#228B22" heightRange={grassHeights[1]} className="z-600" swayPhase={Math.PI / 2} />
-       <Grass bladeCount={2000} color="#004000" heightRange={grassHeights[2]} className="z-700" swayPhase={Math.PI} />
-       <Grass bladeCount={2000} color="#006600" heightRange={grassHeights[3]} className="z-800" swayPhase={0} />
-       <Grass bladeCount={2000} color="#004000" heightRange={grassHeights[4]} className="z-900" swayPhase={Math.PI / 2} />
-       <Grass bladeCount={2000} color="#003e0d" heightRange={grassHeights[5]} className="z-500" swayPhase={Math.PI} />
+       <Grass bladeCount={bladeCount} color="#003e0d" heightRange={grassHeights[0]} className="z-1000" swayPhase={0} />
+       <Grass bladeCount={bladeCount} color="#228B22" heightRange={grassHeights[1]} className="z-600" swayPhase={Math.PI / 2} />
+       <Grass bladeCount={bladeCount} color="#004000" heightRange={grassHeights[2]} className="z-700" swayPhase={Math.PI} />
+       <Grass bladeCount={bladeCount} color="#006600" heightRange={grassHeights[3]} className="z-800" swayPhase={0} />
+       <Grass bladeCount={bladeCount} color="#004000" heightRange={grassHeights[4]} className="z-900" swayPhase={Math.PI / 2} />
+       <Grass bladeCount={bladeCount} color="#003e0d" heightRange={grassHeights[5]} className="z-500" swayPhase={Math.PI} />
         </div>
       )}
     </>
