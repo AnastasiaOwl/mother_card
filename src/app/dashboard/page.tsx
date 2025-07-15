@@ -16,7 +16,6 @@ export default function Dashboard() {
   const [hasInteracted, setHasInteracted] = useState<boolean>(false);
   const windRef = useRef<HTMLAudioElement | null>(null);
   const finalRef = useRef<HTMLAudioElement | null> (null);
-  const [removed,     setRemoved    ] = useState<boolean>(false);
 
   const isMobile = useIsMobile();
 
@@ -69,7 +68,6 @@ export default function Dashboard() {
 
   function handleFirstTap() {
     setHasInteracted(true);
-    setTimeout(() => setRemoved(true), 14500);
   }
 
   useEffect(()=>{

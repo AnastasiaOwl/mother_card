@@ -61,7 +61,7 @@ export default function TextFromDandelions({
 
       let allParticlesCompleted = true;
 
-      for (let p of particles) {
+      for (const p of particles) {
         const localElapsed = Math.max(0, elapsed - p.delay);
         const t =
           localElapsed < 0
